@@ -23,6 +23,7 @@ export default function LoginPage() {
         event.preventDefault();
         console.log(email);
       }
+      
       function handleSubmitRegister(event) {
           if(passwordReg.length>6) {
             if (passwordReg === passwordRegx2) {
