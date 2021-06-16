@@ -5,10 +5,7 @@ from geventwebsocket.handler import WebSocketHandler
 from geventwebsocket import WebSocketError
 import uuid
 from flask_cors import CORS
-
-
 import database_helper
-
 
 app = Flask(__name__)
 CORS(app)
