@@ -1,0 +1,13 @@
+{
+    "[json]": {
+
+       
+        
+            "python.autoComplete.extraPaths": ["./Desktop/login-page"],
+        
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    },
+}

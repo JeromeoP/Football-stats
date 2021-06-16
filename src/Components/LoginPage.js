@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Zoom from 'react-reveal/Zoom';
 import Modal from 'react-modal';
@@ -16,6 +16,14 @@ export default function LoginPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
+    useEffect(()=> {
+       
+        
+
+      
+  }, []); // empty array so it only renders once.
+
+
 
 
 
@@ -24,27 +32,14 @@ export default function LoginPage() {
         console.log(email);
       }
       
-      function handleSubmitRegister(event) {
-          if(passwordReg.length>6) {
-            if (passwordReg === passwordRegx2) {
-                console.log("success!")
-                event.preventDefault();
-    
-              }else {
-                  console.log("Your passwords does not match");
-              }
-          } else {
-              console.log("Password is too short");
-          }
-         
-      }
+      
 
       const [isOpen, setIsOpen] = useState(false);
 
         function toggleModal() {
         setIsOpen(!isOpen);
         }
-  
+
 
     return (
         
@@ -59,7 +54,6 @@ export default function LoginPage() {
          name="username" 
          className = "usern" 
          id="username" 
-         tabindex="1" 
          placeholder="Username" 
          value={userName}
          onChange={(e) => setUsername(e.target.value)
@@ -71,12 +65,44 @@ export default function LoginPage() {
             className = "passw" 
             name = "password" 
             id="password" 
-            tabindex="2" 
             placeholder = "Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
                 />
-            <input className ="loginBtn" type="submit" value="Log in" />
+            <input className ="loginBtn" type="submit" value="Log in"
+            onClick={async () => {
+               
+
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState === 4 && this.status === 200) {
+                            var parsedRequest = JSON.parse(xhttp.responseText);
+                            
+                            if (parsedRequest.success){
+                                console.log("Successfully signed in")
+
+                                // Fix login page
+
+                            } else {
+                                console.log(parsedRequest.message)
+
+                                // Fix error message! 
+                            }
+
+                        }
+                    };
+                    xhttp.open("POST", "http://127.0.0.1:5000/sign-in", true);
+
+                    xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+                    xhttp.send(JSON.stringify({"email": userName, "password": password}));
+                  
+
+
+
+            }
+        }
+            />
              </form>
 
 {
@@ -99,14 +125,13 @@ export default function LoginPage() {
                                <button className="close-modal" onClick={toggleModal}> x </button>
 
                                <div className = "registerContainer">
-                               <form className="register-form"  onSubmit={handleSubmitRegister}>
+                               <form className="register-form" >
                                <input
                                 type = "text"
                                 required
                                 className = "userNameReg" 
                                 name = "username" 
                                 id="username" 
-                                tabindex="1" 
                                 placeholder = "Username"
                                 value={userNameReg}
                                 onChange={(e) => setUserNameReg(e.target.value)}
@@ -118,7 +143,6 @@ export default function LoginPage() {
                                 className = "firstName" 
                                 name = "firstName" 
                                 id="firstName" 
-                                tabindex="2" 
                                 placeholder = "First name"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
@@ -129,7 +153,6 @@ export default function LoginPage() {
                                 className = "lastName" 
                                 name = "lastName" 
                                 id="lastName" 
-                                tabindex="3" 
                                 placeholder = "Last name"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
@@ -142,7 +165,6 @@ export default function LoginPage() {
                                 className = "email" 
                                 name = "email" 
                                 id="email" 
-                                tabindex="4" 
                                 placeholder = "Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -153,7 +175,6 @@ export default function LoginPage() {
                                 className = "passwordReg" 
                                 name = "passwordReg" 
                                 id="passwordReg" 
-                                tabindex="5" 
                                 placeholder = "Password"
                                 value={passwordReg}
                                 onChange={(e) => setPasswordReg(e.target.value)}
@@ -165,7 +186,6 @@ export default function LoginPage() {
                                 className = "passwordRegx2" 
                                 name = "passwordRegx2" 
                                 id="passwordRegx2" 
-                                tabindex="6" 
                                 placeholder = "Repeat your password"
                                 value={passwordRegx2}
                                 onChange={(e) => setPasswordRegx2(e.target.value)}
@@ -175,6 +195,40 @@ export default function LoginPage() {
                                 type="submit"
                                 value="Register"
                                 className ="signUpBtn"
+                                onClick={async () => {
+                                    var newUser = ({
+                                        "username": userNameReg,
+                                        "email": email,
+                                        "password": passwordReg,
+                                        "password2": passwordRegx2,
+                                        "firstname": firstName,
+                                        "lastname": lastName,
+                                      });
+                                if (passwordReg === passwordRegx2) {
+                                    if (userNameReg !== "" && email !== "" && firstName !== "" && lastName !== "")
+                                    {
+                                        const response = await fetch("http://127.0.0.1:5000/sign-up", {
+                                            method: "POST",
+                                            headers: {
+                                            'Content-Type' : 'application/json'
+                                            },
+                                            body: JSON.stringify(newUser)
+                                            })
+                                            if (response.success){
+                                            console.log("it worked")
+                                            }
+                                            else {
+                                                console.log("fields are empty");
+                                            }
+                                    }
+                                   
+                                } else {
+                                    console.log("Passwords does not match")
+                                    }
+                                
+                            
+                            }
+                        }
                                 />
                                 </form>
                                </div>
