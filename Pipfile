@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+flask = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-swagger = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+flask-cors = "*"
+gunicorn = "*"
+cloudinary = "*"
+flask-admin = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8",
+
+
+[scripts]
+start="flask run -p 3001 -h 0.0.0.0"
+init="flask db init"
+migrate="flask db migrate"
