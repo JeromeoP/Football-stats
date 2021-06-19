@@ -81,3 +81,18 @@ def new_user(email, password, firstname, familyname, username):
         return True
     except:
         return False
+
+def check_logged_in_users(email, token):
+    logged_in_user = query_db("SELECT email, token FROM signedInUsers WHERE email = ? AND token = ?", [email, token], one=True)
+    if (logged_in_user is None):
+        return False
+    else:
+        return True
+        
+def delete_logged_in_user(token):
+    try:
+        get_db().execute("DELETE FROM signedInUsers WHERE token = ?;", [token])
+        get_db().commit()
+        return True
+    except:
+        return False
