@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 
 import Zoom from 'react-reveal/Zoom';
 import Modal from 'react-modal';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 
 
 export default function LoginPage() {
+    let history = useHistory();
+
+    const [flag, setFlag] = useState(false);
 
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -16,21 +20,57 @@ export default function LoginPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    useEffect(()=> {
-       
-        
 
+
+    useEffect(()=> {
+     
       
   }, []); // empty array so it only renders once.
 
 
 
+ const errorMsg=(message)=>{
+   setFlag(true);
+}
+
 
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(email);
-      }
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                var parsedRequest = JSON.parse(xhttp.responseText);
+                
+                if (parsedRequest.success){
+                    console.log(parsedRequest.data)
+                    localStorage.setItem("token", parsedRequest.data);
+                    localStorage.setItem("email", userName);
+
+                    history.push("/home")                    // Fix login page
+
+                } else {
+                    console.log(parsedRequest.message)
+                    errorMsg(parsedRequest.message);
+                    // Fix error message! 
+                }
+
+            }
+        };
+        xhttp.open("POST", "http://127.0.0.1:5000/sign-in", true);
+
+        xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+        xhttp.send(JSON.stringify({"email": userName, "password": password}));
+      
+
+
+
+}
+
+
+      
       
       
 
@@ -70,46 +110,27 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
                 />
             <input className ="loginBtn" type="submit" value="Log in"
-            onClick={async () => {
+            
+
                
 
-
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState === 4 && this.status === 200) {
-                            var parsedRequest = JSON.parse(xhttp.responseText);
-                            
-                            if (parsedRequest.success){
-                                console.log("Successfully signed in")
-
-                                // Fix login page
-
-                            } else {
-                                console.log(parsedRequest.message)
-
-                                // Fix error message! 
-                            }
-
-                        }
-                    };
-                    xhttp.open("POST", "http://127.0.0.1:5000/sign-in", true);
-
-                    xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
-                    xhttp.send(JSON.stringify({"email": userName, "password": password}));
-                  
-
-
-
-            }
-        }
             />
+
              </form>
+            <div>{
+                flag?
+                <div>Wrong username or password</div>
+                :
+                <div></div>
+                
+                }</div>
 
 {
     //Sign up page
 }
 
         <div className ="signUp"> 
+        
         <h4>Create an account</h4>
         <button
          onClick = {toggleModal}

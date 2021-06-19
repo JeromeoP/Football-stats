@@ -60,6 +60,22 @@ def sign_in():
         {"success": False, "message": "Wrong username or password"}
         )
 
+@app.route('/sign-out', methods=['POST'])
+def sign_out():
+    print("hejsan")
+
+    data = request.get_json()
+    token = request.headers.get("token") #headers
+    email = data["email"]
+    is_signed_in = database_helper.check_logged_in_users(email, token)
+
+
+    if (is_signed_in):
+        database_helper.delete_logged_in_user(token)
+        return jsonify({"success": True, "message": "Successfully signed out."}),200
+    else:
+        return jsonify({"success": False, "message": "You are not signed in."}),405
+
 
 if __name__ == "__main__":
     print("sever started")
