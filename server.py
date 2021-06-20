@@ -62,7 +62,6 @@ def sign_in():
 
 @app.route('/sign-out', methods=['POST'])
 def sign_out():
-    print("hejsan")
 
     data = request.get_json()
     token = request.headers.get("token") #headers
@@ -75,6 +74,16 @@ def sign_out():
         return jsonify({"success": True, "message": "Successfully signed out."}),200
     else:
         return jsonify({"success": False, "message": "You are not signed in."}),405
+
+
+@app.route('/search', methods=['POST'])
+def playerSearch():
+    data = request.get_json()
+    player = data["player"]
+    print(player)
+
+    return player
+    
 
 
 if __name__ == "__main__":
