@@ -49,8 +49,7 @@ export default function LoginPage() {
                     localStorage.setItem("token", parsedRequest.data);
                     localStorage.setItem("email", userName);
 
-                    history.push("/home")                    // Fix login page
-
+                    history.push("/home")                    
                 } else {
                     console.log(parsedRequest.message)
                     errorMsg(parsedRequest.message);
