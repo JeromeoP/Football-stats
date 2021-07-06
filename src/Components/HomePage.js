@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Link, Redirect, useHistory } from 'react-router-dom';
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { TextField } from '@material-ui/core';
+import {playersList} from "../PlayerNames"
+
 
 export default function HomePage() {
     let history = useHistory();
     const [player, setPlayer] = useState("");
+    const [comparePlayer, setComparePlayer] = useState("");
+    const [flagger, setFlagger] = useState(false);
+
 
     const signOut = () => {
         var token = localStorage.getItem("token");
@@ -15,9 +22,10 @@ export default function HomePage() {
             if (this.readyState === 4 && this.status === 200) {
                 var parsedRequest = JSON.parse(request.responseText);
             if(parsedRequest.success) {
-            history.push("/")                    // Fix login page
+            history.push("/")                    
             localStorage.removeItem("token");
           localStorage.removeItem("email");
+
         }
       }
       }
@@ -29,28 +37,92 @@ export default function HomePage() {
     }
 
     const searchPlayer = ()=> {
-        var request = new XMLHttpRequest();
-        request.open("POST", "http://127.0.0.1:5000/search", true);
-        request.onreadystatechange = function(){
 
+        var playerComparing = JSON.stringify({
+            "player1": player,
+            "player2": comparePlayer
+        });
+
+
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+       
+            if (this.readyState === 4 && this.status === 200) {
+                localStorage.setItem("WHAT2", "CANCER ");
+
+                var parsedRequest = JSON.parse(xhttp.responseText);
+
+                
+                if (parsedRequest.success){
+                    localStorage.setItem("Hej", "hallå");
+
+                    setFlagger(true);
+                  
+                } 
+
+            }
         }
-        request.setRequestHeader('Content-type','application/json; charset=utf-8');
-        request.setRequestHeader("player", player);
-        
-        request.send(JSON.stringify({"player": player}));
-    }
 
+   
+     xhttp.open("POST", "http://127.0.0.1:5000/search", true);
+
+    xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+
+
+    xhttp.send(playerComparing);
+    }
+    //const playersList = [{
+      //   player: 'Bukayo Saka'},{ player: 'Timo Werner'}]
     return (
         <div>
             <div>
-                <form onSubmit={searchPlayer}>
-                <input type="text" 
-                 placeholder="Search player"
+            <form onSubmit={searchPlayer}>
+                <Autocomplete 
+                            
+                options={playersList}
+                getOptionLabel={option => option.player}
+                style={{ width: 300 }}
+                onChange={(event, selectedValue) => setPlayer(selectedValue.player)}  // You can get the `selectedValue` inside your handler function on every time user select some new value
 
-                onChange={(e) => setPlayer(e.target.value)}
+                renderInput={params => (
+                    <TextField {...params}  variant="outlined" fullWidth />
+                    )}
+                />
+                  <Autocomplete 
+                            
+                            options={playersList}
+                            getOptionLabel={option => option.player}
+                            style={{ width: 300 }}
+                            onChange={(event, selectedValue) => setComparePlayer(selectedValue.player)}  // You can get the `selectedValue` inside your handler function on every time user select some new value
+            
+                            renderInput={params => (
+                                <TextField {...params}  variant="outlined" fullWidth />
+                                )}
                             />
-                <input type="submit" value="Search" />
+
+                    <input 
+                    type="submit"
+                    value ="Compare"
+                    />
                 </form>
+                <br />
+                {   
+                    flagger?(
+                        <div>HEJ</div>
+
+                    )
+                    :
+                    (
+                  <div>
+                <img src="/testing.png" alt="Logo" className ="chartImg" />
+
+                      </div>
+                    )
+                }
+
+
               
             </div>
             <br /><br /><br />

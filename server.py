@@ -6,6 +6,9 @@ from geventwebsocket import WebSocketError
 import uuid
 from flask_cors import CORS
 import database_helper
+import retrieveData
+import matplotlib
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 CORS(app)
@@ -62,7 +65,6 @@ def sign_in():
 
 @app.route('/sign-out', methods=['POST'])
 def sign_out():
-
     data = request.get_json()
     token = request.headers.get("token") #headers
     email = data["email"]
@@ -79,10 +81,17 @@ def sign_out():
 @app.route('/search', methods=['POST'])
 def playerSearch():
     data = request.get_json()
-    player = data["player"]
-    print(player)
+    player1 = data["player1"]
+    player2 = data["player2"]
+    print("här är vi: ",player1,player2)
+    #retrieveData.get_player(player2,player1)
+    if retrieveData.get_player(player1,player2):
+        print("are we ever here?")
+        return jsonify({"success": True, "message": "Successfully created a chart"}),200
+    else:
+        print("or are we ever here?")
+        return jsonify({"success": False, "message": "Could not create a chart"}),405
 
-    return player
     
 
 
