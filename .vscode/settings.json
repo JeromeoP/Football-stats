@@ -10,4 +10,5 @@
         },
         "editor.suggest.insertMode": "replace"
     },
+    "python.pythonPath": "venv/bin/python",
 }
