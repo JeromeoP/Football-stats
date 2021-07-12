@@ -83,9 +83,9 @@ def playerSearch():
     data = request.get_json()
     player1 = data["player1"]
     player2 = data["player2"]
-    print("här är vi: ",player1,player2)
-    #retrieveData.get_player(player2,player1)
-    if retrieveData.get_player(player1,player2):
+    compareData = data["compareData"]
+
+    if retrieveData.get_player(player1,player2, compareData):
         print("are we ever here?")
         return jsonify({"success": True, "message": "Successfully created a chart"}),200
     else:
