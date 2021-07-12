@@ -10,6 +10,7 @@ export default function HomePage() {
     const [player, setPlayer] = useState("");
     const [comparePlayer, setComparePlayer] = useState("");
     const [flagger, setFlagger] = useState(false);
+    const [compareData, setCompareData] = useState("");
 
 
     const signOut = () => {
@@ -40,7 +41,8 @@ export default function HomePage() {
 
         var playerComparing = JSON.stringify({
             "player1": player,
-            "player2": comparePlayer
+            "player2": comparePlayer,
+            "compareData": compareData
         });
 
 
@@ -101,6 +103,21 @@ export default function HomePage() {
                                 <TextField {...params}  variant="outlined" fullWidth />
                                 )}
                             />
+                            Filter{" "}
+                             <select 
+                             value={compareData}
+            onChange={(e)=> setCompareData(e.target.value)}
+           >
+           <option value = "CF">Striker</option>
+           <option value = "CAM">Attacking mid/winger</option>
+           <option value = "CM">Midfielder</option>
+           <option value = "FB">Fullbacks</option>
+           <option value = "CB">Centre backs</option>
+           <option value = "GK">Goalkeeper</option>
+
+           
+           </select>
+
 
                     <input 
                     type="submit"
