@@ -75,8 +75,7 @@ export default function HomePage() {
 
     xhttp.send(playerComparing);
     }
-    //const playersList = [{
-      //   player: 'Bukayo Saka'},{ player: 'Timo Werner'}]
+    
     return (
         <div>
             <div>
@@ -103,7 +102,7 @@ export default function HomePage() {
                                 <TextField {...params}  variant="outlined" fullWidth />
                                 )}
                             />
-                            Filter{" "}
+                            Position {" "}
                              <select 
                              value={compareData}
             onChange={(e)=> setCompareData(e.target.value)}
@@ -113,7 +112,8 @@ export default function HomePage() {
            <option value = "CM">Midfielder</option>
            <option value = "FB">Fullbacks</option>
            <option value = "CB">Centre backs</option>
-           <option value = "GK">Goalkeeper</option>
+         { // <option value = "GK">Goalkeeper</option>
+         }
 
            
            </select>
