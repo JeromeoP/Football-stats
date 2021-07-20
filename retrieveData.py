@@ -336,24 +336,31 @@ def get_player(player1,player2, compareData):
 
     for x in params:
         a = min(df_outfield[params][x])
-        a = a - (a*.25)
+        a = (a - (a*.25))/90
         
         b = max(df_outfield[params][x])
-        b = b + (b*.25)
+        b = (b + (b*.25))/90
         
         ranges.append((a,b))
-        
+    quotients = []
+    quotients2 = []
+
+
     for x in range(len(df_outfield['player'])):
         if df_outfield['player'][x] == player1:
             a_values = df_outfield.iloc[x].values.tolist()
+
         if df_outfield['player'][x] == player2:
             b_values = df_outfield.iloc[x].values.tolist()
             
     a_values = a_values[1:]
+    for values in a_values:
+        quotients.append(values/90)
     b_values = b_values[1:]
+    for values in b_values:
+        quotients2.append(values/90)
 
-    values = [a_values,b_values]
-
+    values = [quotients,quotients2]
     #title 
 
     title = dict(
@@ -374,7 +381,7 @@ def get_player(player1,player2, compareData):
     
     # Cropped image of above dimension
     # (It will not change original image)
-    endnote = '@Jerome Planken \ndata via FBREF / Statsbomb'
+    endnote = 'Jerome Planken'
 
     radar = Radar()
 
