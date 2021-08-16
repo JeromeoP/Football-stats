@@ -15,7 +15,7 @@ shooting2 = ["minutes_90s","goals","pens_made","pens_att","shots_total","shots_o
 shooting3 = ["goals","pens_made","pens_att","shots_total","shots_on_target","shots_free_kicks","shots_on_target_pct","shots_total_per90","shots_on_target_per90","goals_per_shot","goals_per_shot_on_target","xg","npxg","npxg_per_shot","xg_net","npxg_net"]
 #passing(passing)
 passing = ["player","nationality","position","squad","age","birth_year","minutes_90s","passes_completed","passes","passes_pct","passes_total_distance","passes_progressive_distance","passes_completed_short","passes_short","passes_pct_short","passes_completed_medium","passes_medium","passes_pct_medium","passes_completed_long","passes_long","passes_pct_long","assists","xa","xa_net","assisted_shots","passes_into_final_third","passes_into_penalty_area","crosses_into_penalty_area","progressive_passes"]
-passing2 = ["passes_completed","passes","passes_pct","passes_total_distance","passes_progressive_distance","passes_completed_short","passes_short","passes_pct_short","passes_completed_medium","passes_medium","passes_pct_medium","passes_completed_long","passes_long","passes_pct_long","assists","xa","xa_net","assisted_shots","passes_into_final_third","passes_into_penalty_area","crosses_into_penalty_area","progressive_passes"]
+passing2 = ["minutes_90s","passes_completed","passes","passes_pct","passes_total_distance","passes_progressive_distance","passes_completed_short","passes_short","passes_pct_short","passes_completed_medium","passes_medium","passes_pct_medium","passes_completed_long","passes_long","passes_pct_long","assists","xa","xa_net","assisted_shots","passes_into_final_third","passes_into_penalty_area","crosses_into_penalty_area","progressive_passes"]
 #passtypes(passing_types)
 passing_types = ["player","nationality","position","squad","age","birth_year","minutes_90s","passes","passes_live","passes_dead","passes_free_kicks","through_balls","passes_pressure","passes_switches","crosses","corner_kicks","corner_kicks_in","corner_kicks_out","corner_kicks_straight","passes_ground","passes_low","passes_high","passes_left_foot","passes_right_foot","passes_head","throw_ins","passes_other_body","passes_completed","passes_offsides","passes_oob","passes_intercepted","passes_blocked"]
 passing_types2 = ["passes","passes_live","passes_dead","passes_free_kicks","through_balls","passes_pressure","passes_switches","crosses","corner_kicks","corner_kicks_in","corner_kicks_out","corner_kicks_straight","passes_ground","passes_low","passes_high","passes_left_foot","passes_right_foot","passes_head","throw_ins","passes_other_body","passes_completed","passes_offsides","passes_oob","passes_intercepted","passes_blocked"]
@@ -243,6 +243,7 @@ def get_team_data(top,end):
 
 
 def get_player(player1,player2, compareData):
+    print(compareData)
 
 ### Make this a function, depending on name search, change name.
     if compareData == "CB":
@@ -251,12 +252,15 @@ def get_player(player1,player2, compareData):
 
         df_outfield = df_outfield[(df_outfield['player']==player1)  | (df_outfield['player']==player2)].reset_index()
         for x in range(len(df_outfield['player'])):
-                if df_outfield['player'][x] == player1:
-                    squadPlayer1 = df_outfield['squad'].iloc[x]
-                if df_outfield['player'][x] == player2:
-                    squadPlayer2 = df_outfield['squad'].iloc[x]
+            if df_outfield['player'][x] == player1:
+                squadPlayer1 = df_outfield['squad'].iloc[x]
+                a_minutes90s = df_outfield['minutes_90s'][x]
 
-        df_outfield = df_outfield.drop(['index','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xa_per90','xg_xa_per90','npxg_per90','npxg_xa_per90','nationality','position','squad','age','birth_year','minutes_90s','tackles','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regains','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','errors', 'passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_long','passes_pct_long','assists','xa','xa_net','assisted_shots','passes_into_final_third','passes_into_penalty_area','crosses_into_penalty_area','progressive_passes', 'cards_yellow','cards_red','cards_yellow_red','fouled','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_lost'],axis=1, errors='ignore')
+            if df_outfield['player'][x] == player2:
+                squadPlayer2 = df_outfield['squad'].iloc[x]
+                b_minutes90s = df_outfield['minutes_90s'][x]
+
+        df_outfield = df_outfield.drop(['index','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xa_per90','xg_xa_per90','npxg_per90','npxg_xa_per90','nationality','position','squad','age','birth_year','minutes_90s','tackles','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regains','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','errors', 'passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_long','passes_pct_long','assists','xa','xa_net','assisted_shots','passes_into_final_third','passes_into_penalty_area','crosses_into_penalty_area', 'cards_yellow','cards_red','cards_yellow_red','fouled','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_lost','passes_pct', 'aerials_won_pct'],axis=1, errors='ignore')
 
 
 
@@ -268,35 +272,51 @@ def get_player(player1,player2, compareData):
         for x in range(len(df_outfield['player'])):
             if df_outfield['player'][x] == player1:
                 squadPlayer1 = df_outfield['squad'].iloc[x]
+                a_minutes90s = df_outfield['minutes_90s'][x]
+
             if df_outfield['player'][x] == player2:
                 squadPlayer2 = df_outfield['squad'].iloc[x]
+                b_minutes90s = df_outfield['minutes_90s'][x]
 
-        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','minutes_90s','goals','pens_made','pens_att','shots_total','shots_on_target','shots_free_kicks','shots_on_target_pct','shots_on_target_per90','goals_per_shot','goals_per_shot_on_target','xg','npxg','xg_net','npxg_net', 'games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_xa_per90','npxg_per90','npxg_xa_per90','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_live_ball','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed', 'nationality','position','squad','age','birth_year','minutes_90s','cards_yellow','cards_red','cards_yellow_red','fouls','fouled','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_lost','aerials_won_pct', 'tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors'],axis=1, errors='ignore')
+        df_outfield = df_outfield.drop(['index','nationality','minutes_90s','position','squad','age','birth_year','goals','pens_made','pens_att','shots_total_per90’,’shots_on_target','shots_free_kicks','shots_on_target_pct','shots_on_target_per90','goals_per_shot','goals_per_shot_on_target','xg_per90','npxg','xg_net','npxg_net', 'xa_per90', 'xg_xa_per90', 'shots_total_per90', 'npxg_per_shot', 'games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','npxg','xa_’per90,’xg_xa_per90','npxg_per90','npxg_xa_per90','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_live_ball','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed', 'nationality','position','squad','age','birth_year','cards_yellow','cards_red','cards_yellow_red','fouls','fouled','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_lost','aerials_won_pct', 'tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors'],axis=1, errors='ignore')
 
     if compareData == "CAM":
+        print("hallå?")
         df_outfield = get_cam_data('https://fbref.com/en/comps/9/','/Premier-League-Stats')
 
         df_outfield = df_outfield[(df_outfield['player']==player1)  | (df_outfield['player']==player2)].reset_index()
+    
+
         for x in range(len(df_outfield['player'])):
             if df_outfield['player'][x] == player1:
                 squadPlayer1 = df_outfield['squad'].iloc[x]
+                a_minutes90s = df_outfield['minutes_90s'][x]
+
             if df_outfield['player'][x] == player2:
                 squadPlayer2 = df_outfield['squad'].iloc[x]
+                b_minutes90s = df_outfield['minutes_90s'][x]
 
-        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa', 'xg_xa_per90','npxg_per90','npxg_xa_per90','minutes_90s','goals','pens_made','pens_att','shots_total','shots_on_target','shots_free_kicks','shots_on_target_pct','shots_on_target_per90','goals_per_shot','goals_per_shot_on_target','xg','npxg','xg_net','npxg_net','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_live_ball','dribbles_completed','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols', 'dispossessed', 'passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa','xa_net','assisted_shots','passes_into_final_third','passes_into_penalty_area','progressive_passes','cards_yellow','cards_red','cards_yellow_red','fouls','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_won','aerials_lost','aerials_won_pct','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_att_pen_area','touches_live_ball','dribbles_completed','dribbles','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressures','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors'],axis=1, errors='ignore')
 
+        df_outfield = df_outfield.drop(['index','nationality','position','npxg_per_shot','squad','age','birth_year','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg_per90','npxg','xa_per90', 'xg_xa_per90','npxg_per90','npxg_xa_per90','minutes_90s','goals','pens_made','pens_att','shots_total_per90','shots_on_target','shots_free_kicks','shots_on_target_pct','shots_on_target_per90','goals_per_shot','goals_per_shot_on_target','npxg','xg_net','npxg_net','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_live_ball','dribbles_completed','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols', 'dispossessed’,’npxg_per_shot', 'passes_pct', 'passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa_net','passes_into_final_third','passes_into_penalty_area','progressive_passes','cards_yellow','cards_red','cards_yellow_red','fouls','offsides','crosses','interceptions','tackles_won','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_won','aerials_lost','aerials_won_pct','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_live_ball','dribbles_completed','dribbles','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','progressive_carries','carries_into_final_third','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressures','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors'],axis=1, errors='ignore')
+   
     #CM stats
     if compareData == "CM":
         df_outfield = get_cm_data('https://fbref.com/en/comps/9/','/Premier-League-Stats')
 
         df_outfield = df_outfield[(df_outfield['player']==player1)  | (df_outfield['player']==player2)].reset_index()
+
+        print(df_outfield['minutes_90s'])
         for x in range(len(df_outfield['player'])):
             if df_outfield['player'][x] == player1:
                 squadPlayer1 = df_outfield['squad'].iloc[x]
+                a_minutes90s = df_outfield['minutes_90s'][x]
+                print("tjena tjena ")
+
             if df_outfield['player'][x] == player2:
                 squadPlayer2 = df_outfield['squad'].iloc[x]
+                b_minutes90s = df_outfield['minutes_90s'][x]
 
-        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','minutes_90s','passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa','xa_net','assisted_shots','passes_into_final_third','passes_into_penalty_area','crosses_into_penalty_area','progressive_passes','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_att_pen_area','touches_live_ball','dribbles_completed','dribbles','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xg_xa_per90','npxg_per90','npxg_xa_per90','nationality','position','squad','age','birth_year','minutes_90s','cards_yellow','cards_red','cards_yellow_red','fouls','offsides','crosses','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_won','aerials_lost','aerials_won_pct','tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors'],axis=1, errors='ignore')
+        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','minutes_90s','passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa_per90','xa_net','_into_final_third','passes_into_penalty_area','crosses_into_penalty_area','progressive_passes','touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_att_pen_area','touches_live_ball','dribbles_completed','dribbles','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xg_xa_per90','npxg_per90','npxg_xa_per90','nationality','position','squad','age','birth_year','cards_yellow','cards_red','cards_yellow_red','fouls','offsides','crosses','pens_won','pens_conceded','own_goals','ball_recoveries','aerials_won','aerials_lost','aerials_won_pct','tackles','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors', 'passes_pct', 'dribbles_completed_pct'],axis=1, errors='ignore')
 
     #Fullback stats
     if compareData == "FB":
@@ -306,10 +326,13 @@ def get_player(player1,player2, compareData):
         for x in range(len(df_outfield['player'])):
             if df_outfield['player'][x] == player1:
                 squadPlayer1 = df_outfield['squad'].iloc[x]
+                a_minutes90s = df_outfield['minutes_90s'][x]
+
             if df_outfield['player'][x] == player2:
                 squadPlayer2 = df_outfield['squad'].iloc[x]
+                b_minutes90s = df_outfield['minutes_90s'][x]
 
-        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xa_per90','xg_xa_per90','npxg_per90','npxg_xa_per90', 'cards_yellow','cards_red','cards_yellow_red','fouled','offsides','crosses','tackles_won','pens_won','pens_conceded','own_goals','aerials_won','aerials_lost','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regains','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors', 'touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_att_pen_area','touches_live_ball','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa','xa_net','assisted_shots','passes_into_final_third','passes_into_penalty_area','progressive_passes'],axis=1, errors='ignore')
+        df_outfield = df_outfield.drop(['index','nationality','position','squad','age','birth_year','games','games_starts','minutes','goals','assists','pens_made','pens_att','cards_yellow','cards_red','goals_per90','assists_per90','goals_assists_per90','goals_pens_per90','goals_assists_pens_per90','xg','npxg','xa','xg_per90','xa_per90','xg_xa_per90','npxg_per90','npxg_xa_per90', 'cards_yellow','cards_red','cards_yellow_red','fouled','offsides','crosses','tackles_won','pens_won','pens_conceded','own_goals','aerials_won','aerials_lost','tackles_won','tackles_def_3rd','tackles_mid_3rd','tackles_att_3rd','dribble_tackles','dribbles_vs','dribble_tackles_pct','dribbled_past','pressure_regains','pressure_regain_pct','pressures_def_3rd','pressures_mid_3rd','pressures_att_3rd','blocks','blocked_shots','blocked_shots_saves','blocked_passes','interceptions','clearances','errors', 'touches','touches_def_pen_area','touches_def_3rd','touches_mid_3rd','touches_att_3rd','touches_att_pen_area','touches_live_ball','dribbles','dribbles_completed_pct','players_dribbled_past','nutmegs','carries','carry_distance','carry_progressive_distance','carries_into_penalty_area','pass_targets','passes_received','passes_received_pct','miscontrols','dispossessed','passes_completed','passes','passes_total_distance','passes_progressive_distance','passes_completed_short','passes_short','passes_pct_short','passes_completed_medium','passes_medium','passes_pct_medium','passes_completed_long','passes_long','passes_pct_long','assists','xa','xa_net','passes_into_final_third','passes_into_penalty_area','progressive_passes', 'minutes_90s', 'passes_pct', 'aerials_won_pct'],axis=1, errors='ignore')
 
 
 
@@ -326,7 +349,6 @@ def get_player(player1,player2, compareData):
 
     df_outfield.to_csv('PL2021_Outfield.csv',index=False)
 
-
     #get parameters
     params = list(df_outfield.columns)
     params = params[1:]
@@ -335,11 +357,16 @@ def get_player(player1,player2, compareData):
     b_values = []
 
     for x in params:
+       
+
+        q = max(a_minutes90s,b_minutes90s)
+        q2 = min(a_minutes90s,b_minutes90s)
+
         a = min(df_outfield[params][x])
-        a = (a - (a*.25))/90
+        a = (a - (a*.25))/q2
         
         b = max(df_outfield[params][x])
-        b = (b + (b*.25))/90
+        b = (b + (b*.25))/q
         
         ranges.append((a,b))
     quotients = []
@@ -350,15 +377,27 @@ def get_player(player1,player2, compareData):
         if df_outfield['player'][x] == player1:
             a_values = df_outfield.iloc[x].values.tolist()
 
+
         if df_outfield['player'][x] == player2:
             b_values = df_outfield.iloc[x].values.tolist()
             
     a_values = a_values[1:]
     for values in a_values:
-        quotients.append(values/90)
+        if a_minutes90s >= 1:
+            quotients.append(values/a_minutes90s)
+        else:
+            quotients.append(values/1)
+
+            print("cannot divide by 0")
+
     b_values = b_values[1:]
     for values in b_values:
-        quotients2.append(values/90)
+        if b_minutes90s >= 1:
+            quotients2.append(values/b_minutes90s)
+        else:
+            quotients2.append(values/1)
+
+            print("cannot divide by zero")
 
     values = [quotients,quotients2]
     #title 
