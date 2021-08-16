@@ -1,3 +1,3 @@
-player,xg_per90,xa_per90,shots_total_per90,npxg_per_shot,pressures,pressure_regains,touches_att_pen_area,dribbles_completed,aerials_won
-Pierre-Emerick Aubameyang,0.41,0.11,2.16,0.16,344.0,83.0,126.0,12.0,31.0
-Alexandre Lacazette,0.46,0.13,2.01,0.17,329.0,107.0,102.0,20.0,30.0
+player,passes_completed_long,progressive_passes,pressures,blocks,clearances,fouls,aerials_won
+Pablo Marí,11.0,5.0,4.0,1.0,8.0,0.0,4.0
+Ben White,13.0,4.0,4.0,2.0,3.0,1.0,4.0

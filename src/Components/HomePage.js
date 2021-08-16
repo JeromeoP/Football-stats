@@ -10,7 +10,7 @@ export default function HomePage() {
     const [player, setPlayer] = useState("");
     const [comparePlayer, setComparePlayer] = useState("");
     const [flagger, setFlagger] = useState(false);
-    const [compareData, setCompareData] = useState("");
+    const [compareData, setCompareData] = useState("CF");
 
 
     const signOut = () => {
