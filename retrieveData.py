@@ -1,3 +1,7 @@
+from PIL import Image
+
+
+
 #standard(stats)
 stats = ["player","nationality","position","squad","age","birth_year","games","games_starts","minutes","goals","assists","pens_made","pens_att","cards_yellow","cards_red","goals_per90","assists_per90","goals_assists_per90","goals_pens_per90","goals_assists_pens_per90","xg","npxg","xa","xg_per90","xa_per90","xg_xa_per90","npxg_per90","npxg_xa_per90"]
 stats3 = ["players_used","possession","games","games_starts","minutes","goals","assists","pens_made","pens_att","cards_yellow","cards_red","goals_per90","assists_per90","goals_assists_per90","goals_pens_per90","goals_assists_pens_per90","xg","npxg","xa","xg_per90","xa_per90","xg_xa_per90","npxg_per90","npxg_xa_per90"] 
@@ -430,10 +434,26 @@ def get_player(player1,player2, compareData):
                             compare=True)
    
 
-
     fig.savefig('public/testing.png')
-    
-   
+    im = Image.open('public/testing.png')
+
+    def crop_center(pil_img, crop_width, crop_height):
+        img_width, img_height = pil_img.size
+     
+        return pil_img.crop(((img_width - crop_width) // 2,
+                         (img_height - crop_height) // 2,
+                         (img_width + crop_width) // 2,
+                         (img_height + crop_height) // 2))
+    im_new = crop_center(im, 800, 800)
+    im_new.save('public/testing.png', quality=95)
+   # img = Image.open('public/testing.png')
+
+    #img.width
+
+#    img = img.crop((4000, 2000, 5000, 5000))
+
+ #   img.save('public/testing.png')
+
 
 
 

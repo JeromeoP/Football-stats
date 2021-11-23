@@ -10,6 +10,7 @@ import retrieveData
 import matplotlib
 matplotlib.use('Agg')
 
+
 app = Flask(__name__)
 CORS(app)
 
